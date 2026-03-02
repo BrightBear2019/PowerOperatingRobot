@@ -1,0 +1,9 @@
+dianwangproject\user_main.o: ..\User\user_main\user_main.c
+dianwangproject\user_main.o: ..\User\user_main\user_main.h
+dianwangproject\user_main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+dianwangproject\user_main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+dianwangproject\user_main.o: ../User/ioLibrary_Driver/Ethernet/wizchip_conf.h
+dianwangproject\user_main.o: ../User/ioLibrary_Driver/Ethernet/W5500/w5500.h
+dianwangproject\user_main.o: ../User/ioLibrary_Driver/Ethernet/wizchip_conf.h
+dianwangproject\user_main.o: ../User/wiz_interface/wiz_interface.h
+dianwangproject\user_main.o: ../User/Loopback/loopback.h

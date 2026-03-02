@@ -1,0 +1,11 @@
+dianwangproject\wiz_interface.o: ..\User\wiz_interface\wiz_interface.c
+dianwangproject\wiz_interface.o: ..\User\wiz_interface\wiz_interface.h
+dianwangproject\wiz_interface.o: ../User/ioLibrary_Driver/Ethernet/wizchip_conf.h
+dianwangproject\wiz_interface.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+dianwangproject\wiz_interface.o: ../User/ioLibrary_Driver/Ethernet/W5500/w5500.h
+dianwangproject\wiz_interface.o: ../User/ioLibrary_Driver/Ethernet/wizchip_conf.h
+dianwangproject\wiz_interface.o: ../User/wiz_platform/wiz_platform.h
+dianwangproject\wiz_interface.o: ../User/ioLibrary_Driver/Internet/DHCP/dhcp.h
+dianwangproject\wiz_interface.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+dianwangproject\wiz_interface.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+dianwangproject\wiz_interface.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

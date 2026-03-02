@@ -38,7 +38,8 @@ void do_tcp_server(uint8_t sn, uint8_t *buf, uint16_t port)
 			if(len>0)
 			{
 				recv(sn,buf,len);								              	/*接收来自Client的数据*/
-				buf[len]=0x00; 											                  /*添加字符串结束符*/
+				if(len < sizeof(buf)) 
+					buf[len]=0x00; 											                  /*添加字符串结束符*/
 				//printf("%s\r\n",buf);
 				//send(sn,buf,len);									              /*向Client发送数据*/
 				 parseTCPCmd(buf,len);

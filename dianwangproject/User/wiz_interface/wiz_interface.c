@@ -142,8 +142,9 @@ void wizchip_version_check(void)
             if (error_count > 5)
             {
                 printf("error, W5500 version is 0x%02x, but read W5500 version value = 0x%02x\r\n", W5500_VERSION, getVERSIONR());
-                while (1)
-                    ;
+                //while (1)
+									//;
+							break;
             }
         }
         else
@@ -170,8 +171,12 @@ void wiz_print_phy_info(void)
 void wiz_phy_link_check(void)
 {
     uint8_t phy_link_status;
+	  uint32_t start_time = 0;  // added :260302
+	 
     do
-    {   wiz_user_delay_ms(1000);
+    { 
+				start_time++;  
+				wiz_user_delay_ms(300);
         ctlwizchip(CW_GET_PHYLINK, (void *)&phy_link_status);
         if (phy_link_status == PHY_LINK_ON)
         {
@@ -182,6 +187,10 @@ void wiz_phy_link_check(void)
         {
             printf("PHY no link\r\n");
         }
+				
+				if(start_time>=5)
+					break;
+				
     } while (phy_link_status == PHY_LINK_OFF);
 }
 

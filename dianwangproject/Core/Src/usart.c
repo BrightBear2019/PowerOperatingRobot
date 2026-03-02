@@ -69,8 +69,8 @@ void SG_Reset(void)
 void SG_SetAngle(uint8_t channel,uint8_t angle)
 {	 
 //	  uint8_t sg_data[]={0XFA,0X00,0XFB,0XFB,0XFE};
-//    if (channel > 24) channel = 0;
-//    if (angle > 180) angle = 180;
+    if (channel > 24) channel = 0;
+    if (angle > 180) angle = 180;
 //		sg_data[2]=channel;
 //    sg_data[3]=angle;
 //		
@@ -97,8 +97,8 @@ void SG_init(void)
 	SG_SetAngle(0x00,0x00);//SG_INSUL1 	 0
 	SG_SetAngle(0x01,0x00);//SG_INSUL2   0
 	SG_SetAngle(0x02,0x00);//SG_WINCH1       0
-	SG_SetAngle(0x03,0x78);//SG_WINCH2      180  
-	SG_SetAngle(0x04,0x78);//SG_WINCH3       180
+	SG_SetAngle(0x03,0x78);//SG_WINCH2      120  
+	SG_SetAngle(0x04,0x78);//SG_WINCH3       120
 	SG_SetAngle(0x05,0x00);//SG_WINCH4      0
   SG_SetAngle(0x06,0x3c);//SG_OPEN1        90
 	SG_SetAngle(0x07,0x3c);//SG_OPEN2       90
@@ -501,7 +501,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     __HAL_LINKDMA(uartHandle,hdmatx,hdma_uart8_tx);
 
     /* UART8 interrupt Init */
-    HAL_NVIC_SetPriority(UART8_IRQn, 0, 0);
+    HAL_NVIC_SetPriority(UART8_IRQn, 4, 0);
     HAL_NVIC_EnableIRQ(UART8_IRQn);
   /* USER CODE BEGIN UART8_MspInit 1 */
 
@@ -657,7 +657,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     __HAL_LINKDMA(uartHandle,hdmatx,hdma_usart2_tx);
 
     /* USART2 interrupt Init */
-    HAL_NVIC_SetPriority(USART2_IRQn, 0, 0);
+    HAL_NVIC_SetPriority(USART2_IRQn, 3, 0);
     HAL_NVIC_EnableIRQ(USART2_IRQn);
   /* USER CODE BEGIN USART2_MspInit 1 */
 
@@ -731,7 +731,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     __HAL_LINKDMA(uartHandle,hdmatx,hdma_usart3_tx);
 
     /* USART3 interrupt Init */
-    HAL_NVIC_SetPriority(USART3_IRQn, 0, 0);
+    HAL_NVIC_SetPriority(USART3_IRQn, 2, 0);
     HAL_NVIC_EnableIRQ(USART3_IRQn);
   /* USER CODE BEGIN USART3_MspInit 1 */
 
@@ -978,7 +978,7 @@ void RS4851_SendBuf( uint8_t *buf,uint16_t len)
 	  RS4851_TX_EN();//使能发送
     do 
     {
-        HAL_UART_Transmit(&huart6, (uint8_t *)&buf[k], 1, 0xFFFF);
+        HAL_UART_Transmit(&huart6, (uint8_t *)&buf[k], 1, 100);//已修改0xFFFF为100.
         k++;
     } while(k < len);
 		
@@ -1018,13 +1018,13 @@ extern uint8_t isControlCmdReceived;
 void parseLora1Cmd(uint8_t *Lora_Redata,uint16_t nlength)
 {
 
-		 if(Lora_Redata[0]!=0x06&&nlength<=4)		//非有效指令
+		 if(Lora_Redata[0]!=0x06||nlength<=4)		//非有效指令
 				return;			
 		 
      if(nlength>50)
 				return;
      
-		 uint8_t cmd[50];
+		 //uint8_t cmd[50];
 		 for(int i =0;i<nlength-4;i++)
 				recv_cmd[i] = Lora_Redata[i+2];
 		 recv_length = nlength - 4;
@@ -1110,7 +1110,7 @@ void parseLora1Cmd(uint8_t *Lora_Redata,uint16_t nlength)
 void parseTCPCmd(uint8_t *TCP_Redata,uint16_t nlength)
 {
 
-	 if(TCP_Redata[0]!=0x06&&nlength<=4)		
+	 if(TCP_Redata[0]!=0x06||nlength<=4)		
 				return;			
 		 
      if(nlength>50)
@@ -1192,6 +1192,9 @@ void parseTCPCmd(uint8_t *TCP_Redata,uint16_t nlength)
 			case 0x08:
 			       isCalibrationRequested = 1;	
 					break;
+			case 0x09:
+			     isWeightSetZeroRequested = 1;	
+			     break;
 			 default:
 				 break;
 		 }		 
@@ -1402,10 +1405,11 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
       parseLora1Cmd(Lora1_Redata,Size);
 		}
 		HAL_UARTEx_ReceiveToIdle_IT(&huart1,Usart1_Redata,sizeof(Usart1_Redata));
+		
 		HAL_UARTEx_ReceiveToIdle_IT(&huart6,RS4851_Redata,sizeof(RS4851_Redata));
 		HAL_UARTEx_ReceiveToIdle_IT(&huart2,RS4852_Redata,sizeof(RS4852_Redata));	
 		HAL_UARTEx_ReceiveToIdle_DMA(&huart3,Lora1_Redata,sizeof(Lora1_Redata));	
-		HAL_UARTEx_ReceiveToIdle_IT(&huart4,Lora1_Redata,sizeof(Lora1_Redata));
+		HAL_UARTEx_ReceiveToIdle_IT(&huart4,Lora2_Redata,sizeof(Lora2_Redata));
 		__HAL_DMA_DISABLE_IT(&hdma_usart3_rx,DMA_IT_HT);
 		
 }

@@ -295,6 +295,7 @@ void Motor_Control(MotorType motor, DirectionType direction)
 				  	ENA = GPIO_PIN_SET;   //1 
             in1 = GPIO_PIN_SET;
             in2 = GPIO_PIN_SET;
+						break;
         default:  //
 					  ENA = GPIO_PIN_SET;   //1 
             in1 = GPIO_PIN_RESET;
@@ -405,7 +406,7 @@ void Motor_Control(MotorType motor, DirectionType direction)
 			  HAL_GPIO_WritePin(MOTOR20B_GPIO_Port,MOTOR20B_Pin,in2);
     }else if(motor == MOTOR21)
 		{
-        HAL_GPIO_WritePin(MOTOR21_EN_GPIO_Port,MOTOR21_EN_Pin,ENA);
+        HAL_GPIO_WritePin(MOTOR21_EN_GPIO_Port,MOTOR12_EN_Pin,ENA);
 			  HAL_GPIO_WritePin(MOTOR21A_GPIO_Port,MOTOR21A_Pin,in1);
 			  HAL_GPIO_WritePin(MOTOR21B_GPIO_Port,MOTOR21B_Pin,in2);
     }else if(motor == MOTOR22)

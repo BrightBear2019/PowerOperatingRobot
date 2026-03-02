@@ -1,0 +1,6 @@
+--c99 -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F7xx_HAL_Driver/Inc -I ../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I ../Drivers/CMSIS/Include -I ../User/ioLibrary_Driver/Ethernet -I ../User/ioLibrary_Driver/Ethernet/W5500 -I ../User/ioLibrary_Driver/Internet/DHCP -I ../User/Loopback -I ../User/wiz_interface -I ../User/wiz_platform -I ../User/user_main
+-I.\RTE\_dianwangproject
+-ID:\Users\Bright\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include
+-ID:\Users\Bright\AppData\Local\Arm\Packs\Keil\STM32F7xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F7xx\Include
+-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F767xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F767xx
+-o dianwangproject\usart.o --omf_browse dianwangproject\usart.crf --depend dianwangproject\usart.d "../Core/Src/usart.c"
